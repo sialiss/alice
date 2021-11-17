@@ -11,7 +11,7 @@ export const someReply = (message: string) => {
     if (reHi.test(message)) {
         return greetings[randomNumber(0, greetings.length)]
     }
-    if (reHiAlice.test(message)) {
+    else if (reHiAlice.test(message)) {
         return respond
     }
 }

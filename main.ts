@@ -1,33 +1,46 @@
 import { Bot } from "https://deno.land/x/grammy@v1.4.0/mod.ts";
 import { someReply } from "./someReply.ts"
 import { envRequired } from "./env.ts"
+import { someReplyWithStickers } from "./someReply_stickers.ts"
 
 // Create bot object
 const botToken = envRequired("BOT_TOKEN")
 
 const bot = new Bot(botToken);
 console.log("Алисочка здесь!")
-// --allow-net разрешает интернеты
-// --allow-env разрешает читать переменные среды
-// deno run --allow-env --allow-net main.ts
 
 // Listen for messages
 bot.command("start", (ctx) => ctx.reply("Здравствуй, как твои дела?"));
+bot.command("sticker_id", (ctx) => {
+    const stickerId = ctx.msg.reply_to_message?.sticker?.file_id
+    if (stickerId) {
+        ctx.reply(stickerId)
+    }
+})
+
 bot.on("message:text", (ctx) => {
     const message = ctx.message;
-    const greetings = someReply(message.text)
-    if (greetings) {
-        ctx.reply(greetings)
+    const reply = someReply(message.text)
+    if (reply) {
+        ctx.reply(reply)
     }
 });
+
 bot.on("message:sticker", (ctx) => {
     const message = ctx.message;
     if (message.sticker.emoji) {
-        const greetings = someReply(message.sticker.emoji)
-        if (greetings) {
-            ctx.reply(greetings)
-    }}
+        const reply = someReply(message.sticker.emoji)
+        if (reply) {
+            ctx.reply(reply)
+        }
+
+        const hug = someReplyWithStickers(message.sticker.emoji)
+        if (hug) {
+            ctx.replyWithSticker(hug)
+        }
+    }
 });
+
 bot.on("message:photo", (ctx) => ctx.reply("Милая картинка!"));
 
 // Launch!
