@@ -2,6 +2,8 @@ import { Bot } from "https://deno.land/x/grammy@v1.4.0/mod.ts";
 import { someReply } from "./someReply.ts"
 import { envRequired } from "./env.ts"
 import { someReplyWithStickers } from "./someReply_stickers.ts"
+import { gadanie } from "./gadanie.ts"
+import { random01 } from "./random01.ts"
 
 // Create bot object
 const botToken = envRequired("BOT_TOKEN")
@@ -17,6 +19,7 @@ bot.command("sticker_id", (ctx) => {
         ctx.reply(stickerId)
     }
 })
+bot.command("gadanie", (ctx) => ctx.reply(gadanie()))
 
 bot.on("message:text", (ctx) => {
     const message = ctx.message;
@@ -41,7 +44,12 @@ bot.on("message:sticker", (ctx) => {
     }
 });
 
-bot.on("message:photo", (ctx) => ctx.reply("Милая картинка!"));
+bot.on("message:photo", (ctx) => {
+    if (random01()) {
+        ctx.reply("Милая картинка!")
+    }
+}
+    );
 
 // Launch!
 bot.start({drop_pending_updates: true});
