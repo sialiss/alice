@@ -1,9 +1,9 @@
-import { Bot } from "https://deno.land/x/grammy@v1.4.0/mod.ts";
+const { Bot } = require("grammy");
 import { someReply } from "./someReply.ts"
 import { envRequired } from "./env.ts"
 import { someReplyWithStickers } from "./someReply_stickers.ts"
 import { random01 } from "./random01.ts"
-import { divination } from "./divination";
+import { divination } from "./divination.ts";
 
 // Create bot object
 const botToken = envRequired("BOT_TOKEN")
@@ -45,7 +45,7 @@ bot.on("message:sticker", (ctx) => {
 });
 
 bot.on("message:photo", (ctx) => {
-    if (random01()) {
+    if (random01(0, 1)) {
         ctx.reply("Милая картинка!")
     }
 }
