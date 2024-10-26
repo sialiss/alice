@@ -1,4 +1,4 @@
-import "https://raw.githubusercontent.com/daychongyang/dotenv/master/load.ts"
+import "https://deno.land/std@0.204.0/dotenv/load.ts";
 
 export const envRequired = (variableName: string): string => {
 	const variable = Deno.env.get(variableName)
